@@ -1,0 +1,12 @@
+services:
+  server:
+    # Build the production image using the multi-stage Dockerfile at the project root
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Map host port 8080 to container port 8080 (format: "host:container")
+    ports:
+      - "8080:8080"
+    # Automatically restart the container if it crashes or the host reboots,
+    # but not if you explicitly stop it with `docker compose down`
+    restart: unless-stopped

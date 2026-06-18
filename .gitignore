@@ -1,0 +1,8 @@
+# Build output (generated artifacts — never committed)
+build/
+
+# macOS Finder metadata
+.DS_Store
+
+# Generated compile database (symlink created inside the dev container)
+compile_commands.json

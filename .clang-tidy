@@ -1,0 +1,13 @@
+# --- .clang-tidy ---
+Checks: >
+  -*,
+  bugprone-*,
+  concurrency-*,
+  cppcoreguidelines-*,
+  modernize-*,
+  performance-*,
+  readability-*,
+  -modernize-use-trailing-return-type,
+  -bugprone-exception-escape
+
+WarningsAsErrors: '*'

@@ -1,0 +1,54 @@
+{
+    "name": "ServerProject Dev Container",
+    "build": {
+        // The Dockerfile that defines the development environment
+        "dockerfile": "Dockerfile",
+        // Context is the project root so the build can see all files
+        "context": ".."
+    },
+    // NOTE: We intentionally do NOT set "workspaceFolder" or "workspaceMount".
+    // VS Code Dev Containers automatically bind-mounts the local project to
+    // /workspaces/ServerProject and opens it there.
+
+    // Expose the server port to the host machine (host:container)
+    "forwardPorts": [8080],
+
+    // Mount a dedicated Docker VOLUME over the build/ directory.
+    // Why: the whole project (including the host's macOS-generated build/) is
+    // bind-mounted into the container. Those build subdirectories contain
+    // CMakeCache.txt files that reference macOS paths/compilers and break the
+    // Linux configure. Shadowing build/ with an empty Linux-native volume gives
+    // the container its own clean, isolated build tree. It also makes compilation
+    // dramatically faster on macOS (no bind-mount I/O overhead) and leaves the
+    // host's build/ directory completely untouched.
+    "mounts": [
+        "source=serverproject-build,target=${containerWorkspaceFolder}/build,type=volume"
+    ],
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // C++ IntelliSense powered by clangd (uses compile_commands.json)
+                "llvm-vs-code-extensions.vscode-clangd",
+                // CMake syntax highlighting
+                "twxs.cmake",
+                // CMake build integration (configure, build, test from VS Code)
+                "ms-vscode.cmake-tools"
+            ],
+            "settings": {
+                // Disable the built-in IntelliSense engine — clangd handles it
+                "C_Cpp.intelliSenseEngine": "disabled",
+                // Do not auto-configure on open; we run cmake via postCreateCommand
+                "cmake.configureOnOpen": false,
+                // Tell clangd where to find compile_commands.json (no symlink needed)
+                "clangd.arguments": [
+                    "--compile-commands-dir=${workspaceFolder}/build/debug"
+                ]
+            }
+        }
+    },
+
+    // The build volume starts empty and Linux-native, so a plain configure is
+    // safe — there is no stale host cache to clean.
+    "postCreateCommand": "cmake --preset debug"
+}

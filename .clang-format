@@ -1,0 +1,10 @@
+---
+BasedOnStyle: LLVM
+IndentWidth: 4                         # Space indentation
+NamespaceIndentation: All              # Indent inside namespaces
+PointerAlignment: Left                 # Pointers attached to the type (auto& thread)
+SpaceBeforeParens: Never               # Remove spaces before control words: if(...) instead of if (...)
+BreakBeforeBraces: Allman              # Braces always go on a new line
+AllowShortLambdasOnASingleLine: All    # Short lambdas on single line
+FixNamespaceComments: false            # Remove comment at end of namespace
+AllowShortFunctionsOnASingleLine: None # Do not allow short functions on single line
