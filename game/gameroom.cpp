@@ -9,7 +9,7 @@ namespace serverproject::gameroom
         {
             auto hostGuard = std::scoped_lock(_hostMutex);
 
-            if(_host->getName() == aPlayer->getName())
+            if(_host != nullptr && _host->getName() == aPlayer->getName())
             {
                 aPlayer->send("Player name is already taken by host!\n");
 
